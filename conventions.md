@@ -23,3 +23,14 @@ flag violations of these specific rules — not generic style opinions.
 
 6. **Keep functions focused.** A function should do one thing; if it's growing past
    ~40 lines or mixing multiple responsibilities, extract a helper.
+
+7. **Public functions need a docstring.** Every function in `task_manager/` that
+   isn't prefixed with `_` must have a one-line docstring describing what it does.
+
+8. **No bare or broad `except`.** Never write `except:` or `except Exception:` to
+   silently swallow errors. Catch the specific exception type you expect and either
+   log it with context or re-raise.
+
+9. **No mutable default arguments.** Never use `[]`, `{}`, or other mutable objects
+   as a default parameter value (e.g. `def f(items=[])`). Use `None` and initialize
+   inside the function body instead.

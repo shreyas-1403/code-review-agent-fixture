@@ -1,4 +1,5 @@
 """Core task manager logic."""
+import json
 import logging
 from pathlib import Path
 from typing import Any
@@ -36,3 +37,29 @@ def complete_task(task_id: int, tasks_file: Path = DEFAULT_TASKS_FILE) -> bool:
 def list_tasks(tasks_file: Path = DEFAULT_TASKS_FILE) -> list[dict[str, Any]]:
     """Return all tasks."""
     return load_tasks(tasks_file)
+
+
+def search_tasks(query, tasks_file=DEFAULT_TASKS_FILE):
+    f = open(tasks_file, "r")
+    d = json.load(f)
+    results = []
+    for t in d:
+        if query.lower() in t["title"].lower():
+            results.append(t)
+    print(f"found {len(results)} matching tasks")
+    return results
+
+
+def delete_task(task_id, tasks_file=DEFAULT_TASKS_FILE, cache=[]):
+    try:
+        d = json.load(open(tasks_file))
+        n = []
+        for x in d:
+            if x["id"] != task_id:
+                n.append(x)
+            else:
+                cache.append(x)
+        json.dump(n, open(tasks_file, "w"))
+        print("deleted")
+    except:
+        pass
