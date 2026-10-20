@@ -11,8 +11,8 @@ def load_tasks(path: Path) -> list[dict[str, Any]]:
     """Load tasks from a JSON file. Returns an empty list if the file is missing
     or contains invalid JSON."""
     try:
-        with open(path, "r", encoding="utf-8") as f:
-            return json.load(f)
+        with open(path, "r", encoding="utf-8") as tasks_file:
+            return json.load(tasks_file)
     except FileNotFoundError:
         logger.info("No task file found at %s, starting fresh", path)
         return []
@@ -24,8 +24,8 @@ def load_tasks(path: Path) -> list[dict[str, Any]]:
 def save_tasks(path: Path, tasks: list[dict[str, Any]]) -> None:
     """Write tasks to a JSON file."""
     try:
-        with open(path, "w", encoding="utf-8") as f:
-            json.dump(tasks, f, indent=2)
+        with open(path, "w", encoding="utf-8") as tasks_file:
+            json.dump(tasks, tasks_file, indent=2)
     except OSError as exc:
         logger.error("Failed to save tasks to %s: %s", path, exc)
         raise
