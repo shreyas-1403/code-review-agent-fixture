@@ -14,7 +14,8 @@ DEFAULT_TASKS_FILE = Path("tasks.json")
 def add_task(title: str, tasks_file: Path = DEFAULT_TASKS_FILE) -> dict[str, Any]:
     """Add a new task with the given title and return the created task record."""
     tasks = load_tasks(tasks_file)
-    new_task = {"id": len(tasks) + 1, "title": title, "done": False}
+    next_id = max((task["id"] for task in tasks), default=0) + 1
+    new_task = {"id": next_id, "title": title, "done": False}
     tasks.append(new_task)
     save_tasks(tasks_file, tasks)
     logger.info("Added task %s: %s", new_task["id"], title)

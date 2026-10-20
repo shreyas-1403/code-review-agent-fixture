@@ -1,10 +1,14 @@
 """Command-line interface for the task manager."""
 import argparse
+import logging
 
 from task_manager.tasks import add_task, complete_task, list_tasks
 
 
-def main() -> None:
+def main(argv: list[str] | None = None) -> None:
+    """Run the task manager CLI with the given arguments (defaults to sys.argv)."""
+    logging.basicConfig(level=logging.WARNING, format="%(levelname)s: %(message)s")
+
     parser = argparse.ArgumentParser(description="Simple task manager")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
@@ -16,7 +20,7 @@ def main() -> None:
 
     subparsers.add_parser("list", help="List all tasks")
 
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
 
     if args.command == "add":
         task = add_task(args.title)
